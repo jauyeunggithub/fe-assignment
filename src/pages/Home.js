@@ -50,6 +50,7 @@ function Home() {
 
   return (
     <div>
+      <h1>Store</h1>
       <form onSubmit={onSubmit}>
         <AutoComplete
           choices={productChoices}

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import ReactStars from "react-rating-stars-component";
 
 function ProductDetail() {
   const [search] = useSearchParams();
@@ -31,11 +32,24 @@ function ProductDetail() {
   return (
     <div>
       <h2>{title}</h2>
-      <img src={thumbnail} alt={description} />
-      <p>Price: ${price}</p>
-      <p>{description}</p>
-      <p>Rating: {rating}/5</p>
-      <p>{stock} available</p>
+      <div className="d-flex flex-wrap gap-10">
+        <img src={thumbnail} alt={description} />
+        <section>
+          <p>Price: ${price}</p>
+          <p>{description}</p>
+          <ReactStars
+            value={rating}
+            count={5}
+            edit={false}
+            activeColor="#ffd700"
+            emptyIcon={<i className="far fa-star" />}
+            halfIcon={<i className="fa fa-star-half-alt" />}
+            filledIcon={<i className="fa fa-star" />}
+            size={30}
+          />
+          <p>{stock} available</p>
+        </section>
+      </div>
       <p>Category: {category} </p>
       <p>Images</p>
       {Array.isArray(images)
