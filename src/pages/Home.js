@@ -4,7 +4,10 @@ import ProductList from "../components/ProductList";
 
 function Home() {
   const [products, setProducts] = useState([]);
-  const [productSearchResults, setProductSearchResults] = useState([]);
+  const [
+    productSearchResultsForAutocomplete,
+    setProductSearchResultsForAutocomplete,
+  ] = useState([]);
   const [keyword, setKeyword] = useState("");
 
   const getAllProducts = async () => {
@@ -19,13 +22,13 @@ function Home() {
     const data = await res.json();
     setProducts(data.products);
   };
-  const searchProductResults = async (searchKeyword) => {
+  const searchProductResultsForAutoComplete = async (searchKeyword) => {
     setKeyword(searchKeyword);
     const res = await fetch(
       `https://dummyjson.com/products/search?q=${searchKeyword}`
     );
     const data = await res.json();
-    setProductSearchResults(data.products);
+    setProductSearchResultsForAutocomplete(data.products);
   };
   const onSubmit = (e) => {
     e.preventDefault();
@@ -40,17 +43,17 @@ function Home() {
   }, []);
 
   const productChoices = useMemo(() => {
-    return productSearchResults.map(({ title, id }) => {
+    return productSearchResultsForAutocomplete.map(({ title, id }) => {
       return { label: title, value: id };
     });
-  }, [productSearchResults]);
+  }, [productSearchResultsForAutocomplete]);
 
   return (
     <div>
       <form onSubmit={onSubmit}>
         <AutoComplete
           choices={productChoices}
-          onChange={(e) => searchProductResults(e.target.value)}
+          onChange={(e) => searchProductResultsForAutoComplete(e.target.value)}
           value={keyword}
           required
         />
