@@ -17,13 +17,32 @@ function ProductDetail() {
   useEffect(() => {
     getProduct(productId);
   }, [productId, getProduct]);
-  const { thumbnail, description, title } = product;
+  const {
+    thumbnail,
+    description,
+    title,
+    price,
+    rating,
+    stock,
+    category,
+    images,
+  } = product;
 
   return (
     <div>
       <h2>{title}</h2>
       <img src={thumbnail} alt={description} />
+      <p>Price: ${price}</p>
       <p>{description}</p>
+      <p>Rating: {rating}/5</p>
+      <p>{stock} available</p>
+      <p>Category: {category} </p>
+      <p>Images</p>
+      {Array.isArray(images)
+        ? images.map((url) => (
+            <img className="w-150" src={url} alt={url} key={url} />
+          ))
+        : "No images available"}
     </div>
   );
 }
