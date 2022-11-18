@@ -1,4 +1,4 @@
-function AutoComplete({ choices = [], onChange, value, required }) {
+function AutoComplete({ choices = [], onChange, onKeyUp, value, required }) {
   return (
     <>
       <input
@@ -8,6 +8,8 @@ function AutoComplete({ choices = [], onChange, value, required }) {
         onChange={onChange}
         value={value}
         required={required}
+        placeholder="Search"
+        onKeyUp={onKeyUp}
       />
       <datalist id="products">
         {choices.map(({ label, value }) => {

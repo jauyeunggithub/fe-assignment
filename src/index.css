@@ -5,3 +5,11 @@
 .flex-wrap {
   flex-wrap: wrap;
 }
+
+.w-150 {
+  width: 150px;
+}
+
+.gap-10 {
+  gap: 10px;
+}

@@ -4,6 +4,7 @@ import ProductList from "../components/ProductList";
 
 function Home() {
   const [products, setProducts] = useState([]);
+  const [productSearchResults, setProductSearchResults] = useState([]);
   const [keyword, setKeyword] = useState("");
 
   const getAllProducts = async () => {
@@ -18,7 +19,14 @@ function Home() {
     const data = await res.json();
     setProducts(data.products);
   };
-
+  const searchProductResults = async (searchKeyword) => {
+    setKeyword(searchKeyword);
+    const res = await fetch(
+      `https://dummyjson.com/products/search?q=${searchKeyword}`
+    );
+    const data = await res.json();
+    setProductSearchResults(data.products);
+  };
   const onSubmit = (e) => {
     e.preventDefault();
     if (!e.target.checkValidity()) {
@@ -32,20 +40,21 @@ function Home() {
   }, []);
 
   const productChoices = useMemo(() => {
-    return products.map(({ title, id }) => {
+    return productSearchResults.map(({ title, id }) => {
       return { label: title, value: id };
     });
-  }, [products]);
+  }, [productSearchResults]);
 
   return (
     <div>
       <form onSubmit={onSubmit}>
         <AutoComplete
           choices={productChoices}
-          onChange={(e) => setKeyword(e.target.value)}
+          onChange={(e) => searchProductResults(e.target.value)}
           value={keyword}
           required
         />
+        <input type="submit" />
       </form>
 
       <ProductList products={products} />
