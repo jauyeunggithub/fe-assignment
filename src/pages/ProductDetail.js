@@ -37,16 +37,18 @@ function ProductDetail() {
         <section>
           <p>Price: ${price}</p>
           <p>{description}</p>
-          <ReactStars
-            value={rating}
-            count={5}
-            edit={false}
-            activeColor="#ffd700"
-            emptyIcon={<i className="far fa-star" />}
-            halfIcon={<i className="fa fa-star-half-alt" />}
-            filledIcon={<i className="fa fa-star" />}
-            size={30}
-          />
+          {typeof rating === "number" && (
+            <ReactStars
+              value={rating}
+              count={5}
+              edit={false}
+              activeColor="#ffd700"
+              emptyIcon={<i className="far fa-star" />}
+              halfIcon={<i className="fa fa-star-half-alt" />}
+              filledIcon={<i className="fa fa-star" />}
+              size={30}
+            />
+          )}
           <p>{stock} available</p>
         </section>
       </div>
