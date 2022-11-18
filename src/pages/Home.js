@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import AutoComplete from "../components/AutoComplete";
 import ProductList from "../components/ProductList";
+import { fetchAllProducts, searchProductsByKeyword } from "../helpers/http";
 
 function Home() {
   const [products, setProducts] = useState([]);
@@ -11,31 +12,32 @@ function Home() {
   const [keyword, setKeyword] = useState("");
 
   const getAllProducts = async () => {
-    const res = await fetch("https://dummyjson.com/products");
-    const data = await res.json();
+    const data = await fetchAllProducts();
     setProducts(data.products);
   };
+
   const searchProducts = async () => {
-    const res = await fetch(
-      `https://dummyjson.com/products/search?q=${keyword}`
-    );
-    const data = await res.json();
+    const data = await searchProductsByKeyword(keyword);
     setProducts(data.products);
   };
+
   const searchProductResultsForAutoComplete = async (searchKeyword) => {
     setKeyword(searchKeyword);
-    const res = await fetch(
-      `https://dummyjson.com/products/search?q=${searchKeyword}`
-    );
-    const data = await res.json();
+    const data = await searchProductsByKeyword(searchKeyword);
     setProductSearchResultsForAutocomplete(data.products);
   };
+
   const onSubmit = (e) => {
     e.preventDefault();
     if (!e.target.checkValidity()) {
       return;
     }
     searchProducts();
+  };
+
+  const clearSearch = () => {
+    setKeyword("");
+    getAllProducts();
   };
 
   useEffect(() => {
@@ -58,7 +60,8 @@ function Home() {
           value={keyword}
           required
         />
-        <input type="submit" />
+        <input type="submit" value="Search" />
+        <input type="button" value="Clear Search" onClick={clearSearch} />
       </form>
 
       <ProductList products={products} />
